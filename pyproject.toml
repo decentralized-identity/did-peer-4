@@ -5,7 +5,10 @@ description = "An implementation of did:peer:4"
 authors = [
     {name = "Daniel Bluhm", email = "dbluhm@pm.me"},
 ]
-dependencies = []
+dependencies = [
+    "multiformats>=0.2.1",
+    "pytest>=7.4.0",
+]
 requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -13,3 +16,9 @@ license = {text = "Apache-2.0"}
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=23.7.0",
+    "ruff>=0.0.285",
+]
