@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from multiformats import multibase, multicodec, multihash
 
 from .doc_visitor import DocVisitor
@@ -116,6 +116,22 @@ def resolve_short(did: str):
     document = decoded_to_resolved(short_did, decoded)
     document["alsoKnownAs"] = [did]
     document["id"] = short_did
+    return document
+
+
+def resolve_short_from_doc(
+    document: Dict[str, Any], did: Optional[str] = None
+) -> Dict[str, Any]:
+    """Resolve the short form document variant from the decoded document."""
+    if did is not None:
+        if did != encode_short(document):
+            raise ValueError("Document does not match DID")
+    else:
+        did = encode_short(document)
+
+    document = decoded_to_resolved(did, document)
+    document["alsoKnownAs"] = [encode(document)]
+    document["id"] = did
     return document
 
 
