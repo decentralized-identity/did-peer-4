@@ -1,5 +1,5 @@
 import json
-from did_peer_4 import decode, encode, resolve, resolve_short
+from did_peer_4 import decode, encode, long_to_short, resolve, resolve_short
 
 
 DOC = {
@@ -50,3 +50,12 @@ def test_resolve():
 def test_resolve_short():
     encoded = encode(DOC)
     print(json.dumps(resolve_short(encoded), indent=2))
+
+def test_stats():
+    encoded = encode(DOC)
+    plain = json.dumps(DOC, separators=(",", ":"))
+    short = long_to_short(encoded)
+
+    print(f"plain: {len(plain)}")
+    print(f"encoded: {len(encoded)}")
+    print(f"short: {len(short)}")
