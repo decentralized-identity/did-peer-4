@@ -10,10 +10,7 @@ BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 LONG_PATTERN = re.compile(
     r"^did:peer:4zQm[" + BASE58_ALPHABET + r"]{44}:z[" + BASE58_ALPHABET + r"]{6,}$"
 )
-SHORT_PATTERN = re.compile(
-    r"^did:peer:4zQm[" + BASE58_ALPHABET + r"]{44}$"
-)
-
+SHORT_PATTERN = re.compile(r"^did:peer:4zQm[" + BASE58_ALPHABET + r"]{44}$")
 
 
 def _encode_doc(document: Dict[str, Any]) -> str:
@@ -99,7 +96,7 @@ def decoded_to_resolved(did: str, document: dict) -> dict:
 
 def long_to_short(did: str) -> str:
     """Return the short form of a did:peer:4."""
-    return did[:did.rfind(":")]
+    return did[: did.rfind(":")]
 
 
 def resolve(did: str) -> Dict[str, Any]:
