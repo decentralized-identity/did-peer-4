@@ -129,7 +129,7 @@ To "contextualize" a document:
 3. Add `alsoKnownAs` at the root of the document and set it to a list of length one with the short form of the DID
 4. For each verification method (declared in the `verificationMethod` section or embedded in a verification relationship like `authentication`):
     - If `controller` is not set, set `controller` to the DID
-5. Optionally, for other relative references in the document, make them absolute by prepending the reference with the DID.
+5. Optionally, for any relative references in the document, make them absolute by prepending the reference with the DID
     - This is not required because relative references are valid within DID Documents and are understood to refer to the current document
 
 Here is an example long form DID Document (all relative references replaced with absolute references):
