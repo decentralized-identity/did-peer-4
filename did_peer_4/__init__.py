@@ -81,26 +81,23 @@ def decoded_to_resolved(did: str, document: dict) -> dict:
                 value["controller"] = did
             return value
 
-        def visit_value_with_id(self, value: dict):
-            if value["id"].startswith("#"):
-                value["id"] = f"{did}{value['id']}"
-            return value
-
-        def visit_verification_relationship_ref(self, value: str):
-            if value.startswith("#"):
-                return f"{did}{value}"
-
     document = Visitor(document).visit()
     return document
 
 
 def long_to_short(did: str) -> str:
     """Return the short form of a did:peer:4."""
+    if not LONG_PATTERN.match(did):
+        raise ValueError(f"DID is not a long form did:peer:4: {did}")
+
     return did[: did.rfind(":")]
 
 
 def resolve(did: str) -> Dict[str, Any]:
-    """Resolve a did:peer:4 into a document."""
+    """Resolve a did:peer:4 into a document.
+
+    did is expected to be long form.
+    """
 
     decoded = decode(did)
     document = decoded_to_resolved(did, decoded)
@@ -110,7 +107,10 @@ def resolve(did: str) -> Dict[str, Any]:
 
 
 def resolve_short(did: str):
-    """Resolve the short form document variant of a did:peer:4."""
+    """Resolve the short form document variant of a did:peer:4.
+
+    did is expected to be long form.
+    """
     decoded = decode(did)
     short_did = long_to_short(did)
     document = decoded_to_resolved(short_did, decoded)
@@ -122,17 +122,17 @@ def resolve_short(did: str):
 def resolve_short_from_doc(
     document: Dict[str, Any], did: Optional[str] = None
 ) -> Dict[str, Any]:
-    """Resolve the short form document variant from the decoded document."""
-    if did is not None:
-        if did != encode_short(document):
-            raise ValueError("Document does not match DID")
-    else:
-        did = encode_short(document)
+    """Resolve the short form document variant from the decoded document.
 
-    document = decoded_to_resolved(did, document)
-    document["alsoKnownAs"] = [encode(document)]
-    document["id"] = did
-    return document
+    did is expected to be short form.
+    If the did is provided, it will be checked against the document.
+    """
+    long = encode(document)
+    if did is not None:
+        if did != long_to_short(long):
+            raise ValueError("Document does not match DID")
+
+    return resolve_short(long)
 
 
 if __name__ == "__main__":
