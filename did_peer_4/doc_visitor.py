@@ -72,21 +72,23 @@ class DocVisitor(ABC):
     def visit(self):
         """Visit the document."""
         vms = []
-        for value in self.document["verificationMethod"]:
+        for value in self.document.pop("verificationMethod", []):
             value = self.visit_value_with_id(value)
             value = self.visit_verification_method(value)
             vms.append(value)
-        self.document["verificationMethod"] = vms
+        if vms:
+            self.document["verificationMethod"] = vms
 
         services = []
-        for value in self.document["service"]:
+        for value in self.document.pop("service", []):
             value = self.visit_value_with_id(value)
             value = self.visit_service(value)
             services.append(value)
-        self.document["service"] = services
+        if services:
+            self.document["service"] = services
 
         authentication = []
-        for value in self.document["authentication"]:
+        for value in self.document.pop("authentication", []):
             if isinstance(value, str):
                 value = self.visit_verification_relationship_ref(value)
                 value = self.visit_authentication_ref(value)
@@ -95,10 +97,11 @@ class DocVisitor(ABC):
                 value = self.visit_verification_relationship_embedded(value)
                 value = self.visit_authentication_embedded(value)
             authentication.append(value)
-        self.document["authentication"] = authentication
+        if authentication:
+            self.document["authentication"] = authentication
 
         key_agreement = []
-        for value in self.document["keyAgreement"]:
+        for value in self.document.pop("keyAgreement", []):
             if isinstance(value, str):
                 value = self.visit_verification_relationship_ref(value)
                 value = self.visit_key_agreement_ref(value)
@@ -107,10 +110,11 @@ class DocVisitor(ABC):
                 value = self.visit_verification_relationship_embedded(value)
                 value = self.visit_key_agreement_embedded(value)
             key_agreement.append(value)
-        self.document["keyAgreement"] = key_agreement
+        if key_agreement:
+            self.document["keyAgreement"] = key_agreement
 
         assertion_method = []
-        for value in self.document["assertionMethod"]:
+        for value in self.document.pop("assertionMethod", []):
             if isinstance(value, str):
                 value = self.visit_verification_relationship_ref(value)
                 value = self.visit_assertion_method_ref(value)
@@ -119,10 +123,11 @@ class DocVisitor(ABC):
                 value = self.visit_verification_relationship_embedded(value)
                 value = self.visit_assertion_method_embedded(value)
             assertion_method.append(value)
-        self.document["assertionMethod"] = assertion_method
+        if assertion_method:
+            self.document["assertionMethod"] = assertion_method
 
         capability_delegation = []
-        for value in self.document["capabilityDelegation"]:
+        for value in self.document.pop("capabilityDelegation", []):
             if isinstance(value, str):
                 value = self.visit_verification_relationship_ref(value)
                 value = self.visit_capability_delegation_ref(value)
@@ -131,10 +136,11 @@ class DocVisitor(ABC):
                 value = self.visit_verification_relationship_embedded(value)
                 value = self.visit_capability_delegation_embedded(value)
             capability_delegation.append(value)
-        self.document["capabilityDelegation"] = capability_delegation
+        if capability_delegation:
+            self.document["capabilityDelegation"] = capability_delegation
 
         capability_invocation = []
-        for value in self.document["capabilityInvocation"]:
+        for value in self.document.pop("capabilityInvocation", []):
             if isinstance(value, str):
                 value = self.visit_verification_relationship_ref(value)
                 value = self.visit_capability_invocation_ref(value)
@@ -143,6 +149,7 @@ class DocVisitor(ABC):
                 value = self.visit_verification_relationship_embedded(value)
                 value = self.visit_capability_invocation_embedded(value)
             capability_invocation.append(value)
-        self.document["capabilityInvocation"] = capability_invocation
+        if capability_invocation:
+            self.document["capabilityInvocation"] = capability_invocation
 
         return self.document

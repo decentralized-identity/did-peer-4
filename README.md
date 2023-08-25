@@ -2,6 +2,27 @@
 
 DID Peer Numalgo 4 is a statically resolvable DID Method with a short form and a long form. The short form is the hash over the long form.
 
+## Usage
+
+```python
+>>> from did_peer_4 import encode
+>>> did = encode({"hello": "world"})
+>>> print(did)
+did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a
+>>> from did_peer_4 import decode
+>>> decoded = decode(did)
+>>> print(decoded)
+{'hello': 'world'}
+>>> from did_peer_4 import resolve
+>>> document = resolve(did)
+>>> print(document)
+{'hello': 'world', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M'], 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a'}
+>>> from did_peer_4 import resolve_short
+>>> short_document = resolve_short(did)
+>>> print(short_document)
+{'hello': 'world', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a'], 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M'}
+```
+
 ## Tutorial
 
 ### Creating a DID
@@ -244,9 +265,11 @@ Inconsistencies between languages for URL Safe Base64 is a nightmare. To avoid t
 
 For the sake of simplicity.
 
+We think it is more valuable to have something simple and straightforward to implement than it is to have a short identifier. In practice, the long form will only need to be exchanged once and then the short form will be used thereafter.
+
 If you'd like to see some exploration of a DID method that does try to shorten the identifier but is still statically resolvable, see my pet project: https://github.com/dbluhm/did-static
 
-### What's wrong with did:peer:2 + did:peer:3?
+### What's wrong with `did:peer:2` + `did:peer:3`?
 
 We believe this is a cleaner implementation. Picky parsing rules and lossy encoding in did:peer:2 limited what kind of documents could be expressed. This also made it harder to implement.
 
@@ -254,6 +277,6 @@ did:peer:3 was a solution to the problem of always needing to pass the full DID 
 
 ### Why use multibase/multihash/multicodec?
 
-This keeps our options open for future encoding options. For instance, we could choose to messagepack the doc in the future (or something) to further shorten the identifier.
+This keeps our options open. For instance, we could choose to messagepack the doc in the future (or something) to further shorten the identifier. This wouldn't require drastic changes to implement when we're already using multiformats.
 
 If nothing else, having self-descriptive identifiers doesn't hurt.
