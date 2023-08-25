@@ -132,7 +132,7 @@ To "contextualize" a document:
 5. Optionally, for other relative references in the document, make them absolute by prepending the reference with the DID.
     - This is not required because relative references are valid within DID Documents and are understood to refer to the current document
 
-Here is an example long from DID Document (all relative references replaced with absolute references):
+Here is an example long form DID Document (all relative references replaced with absolute references):
 
 ```json
 {
