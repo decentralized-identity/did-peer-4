@@ -65,12 +65,12 @@ To encode this value into a `did:peer:4`:
     2. Encode the string as utf-8 bytes
     3. Prefix the bytes with the multicodec prefix for json ([varint](https://github.com/multiformats/unsigned-varint) `0x0200`)
     4. Multibase encode the bytes as base58btc (base58 encode the value and prefix with a `z`)
-    5. Consider this value the encoded document
+    5. Consider this value the `encoded document`
 2. Hash the document:
     1. Take SHA2-256 digest of the encoded document (encode the bytes as utf-8)
     2. Prefix these bytes with the [multihash](https://github.com/multiformats/multihash) prefix for SHA2-256 and the hash length (varint `0x12` for prefix, varint `0x20` for 32 bytes in length)
     3. Multibase encode the bytes as base58btc (base58 encode the value and prefix with a `z`)
-    4. Consider this value the hash
+    4. Consider this value the `hash`
 3. Construct the did by concatenating the values as follows:
 
         did:peer:4{{hash}}:{{encoded document}}
@@ -94,6 +94,12 @@ did:peer:4zQmNsz8npvrAyj983LTownQhp3PmGVGzMYrhBRGfig6rZ6P
 #### Long form
 
 Resolving a long form `did:peer:4` document is done by decoding the document from the DID and "contextualizing" the document with the DID.
+
+To decode the document:
+
+1. Extract the `encoded document` portion of the DID
+2. Verify the hash over the `encoded document` by extracting the `hash` portion of the DID and comparing it against the result of following step 2 ("Hash the document") above to recreate the hash.
+3. Perform the inverse of step 1 ("Encode the document") to get the decoded document
 
 To "contextualize" a document:
 
