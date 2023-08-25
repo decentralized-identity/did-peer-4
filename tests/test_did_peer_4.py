@@ -36,6 +36,7 @@ DOC = {
     ],
 }
 
+
 def test_encode_decode():
     encoded = encode(DOC)
     decoded = decode(encoded)
@@ -50,6 +51,7 @@ def test_resolve():
 def test_resolve_short():
     encoded = encode(DOC)
     print(json.dumps(resolve_short(encoded), indent=2))
+
 
 def test_stats():
     encoded = encode(DOC)
