@@ -1,4 +1,5 @@
 import json
+
 from did_peer_4 import decode, encode, long_to_short, resolve, resolve_short
 
 

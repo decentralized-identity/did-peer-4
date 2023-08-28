@@ -1,0 +1,19 @@
+{
+  "@context": "https://w3id.org/did/v1",
+  "verificationMethod": [
+    {
+      "id": "#1",
+      "type": "Ed25519VerificationKey2018",
+      "publicKeyBase58": "3dtu2WWtd5ELwRTJEPzmEJUYEp8Qq36N2QA24g9tFXK9"
+    }
+  ],
+  "authentication": ["#1"],
+  "service": [
+    {
+      "id": "#didcomm",
+      "type": "did-communication",
+      "recipientKeys": ["#1"],
+      "serviceEndpoint": "http://172.17.0.1:9031/a2a/5b6dyY6PndLaCnWxZbeEYW/5b6dyY6PndLaCnWxZbeEYW/2f6aae0c-6b04-40ff-a25e-faecaea39f83"
+    }
+  ]
+}
