@@ -101,7 +101,7 @@ def resolve(did: str) -> Dict[str, Any]:
 
     decoded = decode(did)
     document = decoded_to_resolved(did, decoded)
-    document["alsoKnownAs"] = [long_to_short(did)]
+    document.setdefault("alsoKnownAs", []).append(long_to_short(did))
     document["id"] = did
     return document
 
@@ -114,7 +114,7 @@ def resolve_short(did: str):
     decoded = decode(did)
     short_did = long_to_short(did)
     document = decoded_to_resolved(short_did, decoded)
-    document["alsoKnownAs"] = [did]
+    document.setdefault("alsoKnownAs", []).append(did)
     document["id"] = short_did
     return document
 

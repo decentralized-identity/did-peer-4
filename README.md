@@ -133,7 +133,7 @@ To "contextualize" a document:
 
 1. Take the decoded document (which should look identical to the input example above)
 2. Add `id` at the root of the document and set it to the DID
-3. Add `alsoKnownAs` at the root of the document and set it to a list of length one with the short form of the DID
+3. Add `alsoKnownAs` at the root of the document and set it to a list, if not already present, and append the short form of the DID
 4. For each verification method (declared in the `verificationMethod` section or embedded in a verification relationship like `authentication`):
     - If `controller` is not set, set `controller` to the DID
 5. Optionally, for any relative references in the document, make them absolute by prepending the reference with the DID
