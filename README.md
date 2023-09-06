@@ -1,6 +1,14 @@
 # DID Peer Numalgo 4
 
+[![pypi release](https://img.shields.io/pypi/v/did-peer-4)](https://pypi.org/project/did-peer-4/)
+
 DID Peer Numalgo 4 is a statically resolvable DID Method with a short form and a long form. The short form is the hash over the long form.
+
+## Installation
+
+```sh
+$ pip install did-peer-4
+```
 
 ## Usage
 
