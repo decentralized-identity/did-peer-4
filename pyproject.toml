@@ -7,7 +7,6 @@ authors = [
 ]
 dependencies = [
     "multiformats>=0.2.1",
-    "pytest>=7.4.0",
     "typing-extensions<4.6.0",
 ]
 requires-python = ">=3.9"
@@ -20,6 +19,7 @@ build-backend = "pdm.backend"
 
 [tool.pdm.dev-dependencies]
 dev = [
+    "pytest>=7.4.0",
     "black>=23.7.0",
     "ruff>=0.0.285",
     "pre-commit>=3.3.3",
