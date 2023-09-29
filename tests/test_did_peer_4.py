@@ -30,9 +30,11 @@ DOC = {
         {
             "id": "#didcommmessaging-0",
             "type": "DIDCommMessaging",
-            "serviceEndpoint": "didcomm://queue",
-            "accept": ["didcomm/v2"],
-            "routingKeys": [],
+            "serviceEndpoint": {
+                "uri": "didcomm:transport/queue",
+                "accept": ["didcomm/v2"],
+                "routingKeys": [],
+            },
         }
     ],
 }
@@ -40,17 +42,22 @@ DOC = {
 
 def test_encode_decode():
     encoded = encode(DOC)
+    print()
+    print(encoded)
+    print(long_to_short(encoded))
     decoded = decode(encoded)
     assert decoded == DOC
 
 
 def test_resolve():
     encoded = encode(DOC)
+    print()
     print(json.dumps(resolve(encoded), indent=2))
 
 
 def test_resolve_short():
     encoded = encode(DOC)
+    print()
     print(json.dumps(resolve_short(encoded), indent=2))
 
 
@@ -59,6 +66,7 @@ def test_stats():
     plain = json.dumps(DOC, separators=(",", ":"))
     short = long_to_short(encoded)
 
+    print()
     print(f"plain: {len(plain)}")
     print(f"encoded: {len(encoded)}")
     print(f"short: {len(short)}")

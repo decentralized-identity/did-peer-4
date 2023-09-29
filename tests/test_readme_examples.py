@@ -14,23 +14,47 @@ def examples():
 EXAMPLES = list(examples())
 
 
-@pytest.mark.parametrize("example", EXAMPLES)
-def test_examples(example):
+def print_example(
+    index: int, input_doc: dict, encoded: str, resolved: dict, resolved_short: dict
+):
+    example = f"""
+#### Example {index}
+
+Input Document:
+
+```json
+{json.dumps(input_doc, indent=2, sort_keys=True)}
+```
+
+Long Form DID:
+
+```
+{encoded}
+```
+
+Short Form DID: `{long_to_short(encoded)}`
+
+Resolved Document, Long Form:
+
+```json
+{json.dumps(resolved, indent=2, sort_keys=True)}
+```
+
+Resolved Document, Short Form:
+
+```json
+{json.dumps(resolved_short, indent=2, sort_keys=True)}
+```
+
+    """
+    print(example)
+
+
+@pytest.mark.parametrize(("index", "example"), enumerate(EXAMPLES, start=1))
+def test_examples(index: int, example):
     with open(example) as f:
         example = json.load(f)
     encoded = encode(example)
     resolved = resolve(encoded)
     resolved_short = resolve_short(encoded)
-    print("Input Document:", json.dumps(example, indent=2, sort_keys=True), sep="\n")
-    print("Long Form DID:", encoded)
-    print("Short Form DID:", long_to_short(encoded))
-    print(
-        "Resolved Document, Long Form:",
-        json.dumps(resolved, indent=2, sort_keys=True),
-        sep="\n",
-    )
-    print(
-        "Resolved Document, Short Form:",
-        json.dumps(resolved_short, indent=2, sort_keys=True),
-        sep="\n",
-    )
+    print_example(index, example, encoded, resolved, resolved_short)

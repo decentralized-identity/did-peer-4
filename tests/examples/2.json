@@ -1,35 +1,37 @@
 {
-   "@context": "https://w3id.org/did/v1",
-   "authentication": [
-       {
-           "id": "#key-1",
-           "type": "Ed25519VerificationKey2020",
-           "publicKeyMultibase": "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"
-       },
-       {
-           "id": "#key-2",
-           "type": "Ed25519VerificationKey2020",
-           "publicKeyMultibase": "z6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg"
-       }
-   ],
-   "keyAgreement": [
-       {
-           "id": "#key-3",
-           "type": "X25519KeyAgreementKey2020",
-           "publicKeyMultibase": "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc"
-       }
-   ],
-   "service": [
-       {
-           "id": "#didcommmessaging-0",
-           "type": "DIDCommMessaging",
-           "serviceEndpoint": "https://example.com/endpoint",
-           "routingKeys": [
-               "did:example:somemediator#somekey"
-           ],
-           "accept": [
-                "didcomm/v2", "didcomm/aip2;env=rfc587"
-           ]
-       }
-   ]
+  "@context": "https://w3id.org/did/v1",
+  "authentication": [
+    {
+      "id": "#key-1",
+      "type": "Ed25519VerificationKey2020",
+      "publicKeyMultibase": "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"
+    },
+    {
+      "id": "#key-2",
+      "type": "Ed25519VerificationKey2020",
+      "publicKeyMultibase": "z6MkgoLTnTypo3tDRwCkZXSccTPHRLhF4ZnjhueYAFpEX6vg"
+    }
+  ],
+  "keyAgreement": [
+    {
+      "id": "#key-3",
+      "type": "X25519KeyAgreementKey2020",
+      "publicKeyMultibase": "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc"
+    }
+  ],
+  "service": [
+    {
+      "id": "#didcommmessaging-0",
+      "type": "DIDCommMessaging",
+      "serviceEndpoint": {
+        "uri": "https://example.com/endpoint",
+        "routingKeys": [
+          "did:example:somemediator#somekey"
+        ],
+        "accept": [
+          "didcomm/v2", "didcomm/aip2;env=rfc587"
+        ]
+      }
+    }
+  ]
 }
