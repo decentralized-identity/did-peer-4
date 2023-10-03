@@ -133,10 +133,3 @@ def resolve_short_from_doc(
             raise ValueError("Document does not match DID")
 
     return resolve_short(long)
-
-
-if __name__ == "__main__":
-    did = encode({"hello": "world"})
-    print(did)
-    print(LONG_PATTERN.pattern)
-    assert LONG_PATTERN.match(did)

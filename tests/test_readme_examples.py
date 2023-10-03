@@ -23,7 +23,7 @@ def print_example(
 Input Document:
 
 ```json
-{json.dumps(input_doc, indent=2, sort_keys=True)}
+{json.dumps(input_doc, indent=2)}
 ```
 
 Long Form DID:
@@ -37,13 +37,13 @@ Short Form DID: `{long_to_short(encoded)}`
 Resolved Document, Long Form:
 
 ```json
-{json.dumps(resolved, indent=2, sort_keys=True)}
+{json.dumps(resolved, indent=2)}
 ```
 
 Resolved Document, Short Form:
 
 ```json
-{json.dumps(resolved_short, indent=2, sort_keys=True)}
+{json.dumps(resolved_short, indent=2)}
 ```
 
     """
