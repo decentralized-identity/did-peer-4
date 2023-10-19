@@ -1,30 +1,56 @@
 import json
 import re
 from typing import Any, Dict, Optional
-from multiformats import multibase, multicodec, multihash
+from base58 import b58decode, b58encode
+from hashlib import sha256
 
 from .doc_visitor import DocVisitor
 
+# Regex patterns
 BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-
 LONG_PATTERN = re.compile(
     r"^did:peer:4zQm[" + BASE58_ALPHABET + r"]{44}:z[" + BASE58_ALPHABET + r"]{6,}$"
 )
 SHORT_PATTERN = re.compile(r"^did:peer:4zQm[" + BASE58_ALPHABET + r"]{44}$")
 
+# Multiformats constants
+MULTICODEC_JSON = b"\x80\x04"
+MULTICODEC_SHA2_256 = b"\x12\x20"
+MULTIBASE_BASE58_BTC = "z"
+
 
 def _encode_doc(document: Dict[str, Any]) -> str:
     """Encode the document."""
-    return multibase.encode(
-        multicodec.wrap("json", json.dumps(document, separators=(",", ":")).encode()),
-        "base58btc",
+    return (
+        MULTIBASE_BASE58_BTC
+        + b58encode(
+            MULTICODEC_JSON + json.dumps(document, separators=(",", ":")).encode()
+        ).decode()
     )
+
+
+def _decode_doc(encoded_doc: str) -> Dict[str, Any]:
+    """Decode the document."""
+    encoding = encoded_doc[0]
+    encoded = encoded_doc[1:]
+    if encoding != MULTIBASE_BASE58_BTC:
+        raise ValueError(f"Unsupported encoding: {encoding}")
+
+    decoded_bytes = b58decode(encoded)
+    if not decoded_bytes.startswith(MULTICODEC_JSON):
+        raise ValueError(f"Unsupported multicodec: {decoded_bytes[:2]}...")
+
+    value = decoded_bytes[2:]
+    return json.loads(value)
 
 
 def _hash_encoded_doc(encoded_doc: str) -> str:
     """Return multihash of encoded doc."""
-    return multibase.encode(
-        multihash.digest(encoded_doc.encode(), "sha2-256"), "base58btc"
+    return (
+        MULTIBASE_BASE58_BTC
+        + b58encode(
+            MULTICODEC_SHA2_256 + sha256(encoded_doc.encode()).digest()
+        ).decode()
     )
 
 
@@ -61,10 +87,7 @@ def decode(did: str) -> Dict[str, Any]:
     if _hash_encoded_doc(encoded_doc) != hashed:
         raise ValueError(f"Hash is invalid for did: {did}")
 
-    decoded_bytes = multibase.decode(encoded_doc)
-    _, decoded = multicodec.unwrap(decoded_bytes)
-
-    return json.loads(decoded)
+    return _decode_doc(encoded_doc)
 
 
 def decoded_to_resolved(did: str, document: dict) -> dict:
