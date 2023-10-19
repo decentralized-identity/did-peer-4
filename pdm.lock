@@ -6,20 +6,16 @@ groups = ["default", "dev"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:4ed49b710108c603e63081e34c63433e8787ba1ef4f1cc72986d0b0454207b86"
+content_hash = "sha256:f2630d0ea89ee83519197b46b1cd363019d529b17b64f6425c48a8698de09214"
 
 [[package]]
-name = "bases"
-version = "0.2.1"
-requires_python = ">=3.7"
-summary = "Python library for general Base-N encodings."
-dependencies = [
-    "typing-extensions",
-    "typing-validation",
-]
+name = "base58"
+version = "2.1.1"
+requires_python = ">=3.5"
+summary = "Base58 and Base58Check implementation."
 files = [
-    {file = "bases-0.2.1-py3-none-any.whl", hash = "sha256:d030b5e349773ad2a067bfaaf3a9794b70d23a1f923033c15c2e0ce869854f6d"},
-    {file = "bases-0.2.1.tar.gz", hash = "sha256:b0999e14725b59bff38974b00e918629e0e29f3d80a40e022c6f0f8d5cdff9d4"},
+    {file = "base58-2.1.1-py3-none-any.whl", hash = "sha256:11a36f4d3ce51dfc1043f3218591ac4eb1ceb172919cebe05b52a5bcc8d245c2"},
+    {file = "base58-2.1.1.tar.gz", hash = "sha256:c5d0cb3f5b6e81e8e35da5754388ddcc6d0d14b6c6a132cb93d69ed580a7278c"},
 ]
 
 [[package]]
@@ -136,35 +132,6 @@ summary = "brain-dead simple config-ini parsing"
 files = [
     {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
     {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
-]
-
-[[package]]
-name = "multiformats"
-version = "0.2.1"
-requires_python = ">=3.7"
-summary = "Python implementation of multiformats protocols."
-dependencies = [
-    "bases",
-    "multiformats-config",
-    "typing-extensions",
-    "typing-validation",
-]
-files = [
-    {file = "multiformats-0.2.1-py3-none-any.whl", hash = "sha256:0655fad05cff4cb9eaae3a0f61c4cf8189857fef5a5d0ade6aa25d6b8439e204"},
-    {file = "multiformats-0.2.1.tar.gz", hash = "sha256:4aee6eb5289c3cd00315e3f2b97e36b60db6af9bcec91d65f32d7155942dbef9"},
-]
-
-[[package]]
-name = "multiformats-config"
-version = "0.2.0.post4"
-requires_python = ">=3.7"
-summary = "Pre-loading configuration module for the 'multiformats' package."
-dependencies = [
-    "multiformats",
-]
-files = [
-    {file = "multiformats-config-0.2.0.post4.tar.gz", hash = "sha256:3b5d0be63211681edbcf887abe149fc17b43a79d0c009fb44232af9addf7a309"},
-    {file = "multiformats_config-0.2.0.post4-py3-none-any.whl", hash = "sha256:221a630732f7bb2cd6cb708b94a85da683e29618e4a2055eea1bf4f980feefce"},
 ]
 
 [[package]]
@@ -357,16 +324,6 @@ summary = "Backported and Experimental Type Hints for Python 3.7+"
 files = [
     {file = "typing_extensions-4.5.0-py3-none-any.whl", hash = "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"},
     {file = "typing_extensions-4.5.0.tar.gz", hash = "sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb"},
-]
-
-[[package]]
-name = "typing-validation"
-version = "1.0.0.post2"
-requires_python = ">=3.7"
-summary = "A simple library for runtime type-checking."
-files = [
-    {file = "typing-validation-1.0.0.post2.tar.gz", hash = "sha256:6a30dec74373f9dca29db6f79ef65eb765a6934c09d87639cf422288933b2aa4"},
-    {file = "typing_validation-1.0.0.post2-py3-none-any.whl", hash = "sha256:c9f5cb42435ee59fcf5a1a69dc88ccd5dc6f904436e61b5b8c276906a1c9e454"},
 ]
 
 [[package]]

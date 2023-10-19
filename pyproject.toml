@@ -6,8 +6,7 @@ authors = [
     {name = "Daniel Bluhm", email = "dbluhm@pm.me"},
 ]
 dependencies = [
-    "multiformats>=0.2.1",
-    "typing-extensions<4.6.0",
+    "base58>=2.1.1",
 ]
 requires-python = ">=3.9"
 readme = "README.md"
