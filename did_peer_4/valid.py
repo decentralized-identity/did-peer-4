@@ -68,9 +68,7 @@ def validate_input_document(document: Mapping[str, Any]) -> Mapping[str, Any]:
             raise ValueError(f"{key}[{index}]: resource id must be a string")
 
         if not ident.startswith("#"):
-            raise ValueError(
-                f"{key}[{index}]: All document resource ids must be relative"
-            )
+            raise ValueError(f"{key}[{index}]: resource id must be relative")
 
         if "type" not in resource:
             raise ValueError(f"{key}[{index}]: resource must have a type")
