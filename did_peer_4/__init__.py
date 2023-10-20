@@ -4,6 +4,7 @@ from typing import Any, Callable, Dict, Optional, Union
 from base58 import b58decode, b58encode
 from hashlib import sha256
 
+from .valid import validate_input_document
 
 # Regex patterns
 BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -55,8 +56,11 @@ def _hash_encoded_doc(encoded_doc: str) -> str:
 
 def encode(
     document: Dict[str, Any],
+    validate: bool = True,
 ) -> str:
     """Encode an input document into a did:peer:4."""
+    if validate:
+        document = dict(validate_input_document(document))
     encoded_doc = _encode_doc(document)
     hashed = _hash_encoded_doc(encoded_doc)
     return f"did:peer:4{hashed}:{encoded_doc}"
@@ -195,3 +199,14 @@ def resolve_short_from_doc(
             raise ValueError("Document does not match DID")
 
     return resolve_short(long)
+
+
+__all__ = [
+    "encode",
+    "encode_short",
+    "decode",
+    "resolve",
+    "resolve_short",
+    "resolve_short_from_doc",
+    "validate_input_document",
+]

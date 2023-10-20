@@ -22,4 +22,14 @@ dev = [
     "black>=23.7.0",
     "ruff>=0.0.285",
     "pre-commit>=3.3.3",
+    "pytest-cov>=4.1.0",
 ]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "@abstract"
+]
+precision = 2
+skip_covered = true
+show_missing = true
