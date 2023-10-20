@@ -1,10 +1,9 @@
 import json
 import re
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional, Union
 from base58 import b58decode, b58encode
 from hashlib import sha256
 
-from .doc_visitor import DocVisitor
 
 # Regex patterns
 BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -90,21 +89,63 @@ def decode(did: str) -> Dict[str, Any]:
     return _decode_doc(encoded_doc)
 
 
-def decoded_to_resolved(did: str, document: dict) -> dict:
-    """Add DID and controller to verification methods and relationships."""
+def _operate_on_embedded(
+    visitor: Callable[[dict], dict]
+) -> Callable[[Union[dict, str]], Union[dict, str]]:
+    """Return an adapter function that turns a vm visitor into a vm | ref visitor.
 
-    class Visitor(DocVisitor):
-        def visit_verification_method(self, value: dict):
-            if "controller" not in value:
-                value["controller"] = did
-            return value
+    The adapter function calls a visitor on embedded vms but just returns on refs.
+    """
 
-        def visit_verification_relationship_embedded(self, value: dict):
-            if "controller" not in value:
-                value["controller"] = did
-            return value
+    def _adapter(vm: Union[dict, str]) -> Union[dict, str]:
+        if isinstance(vm, dict):
+            return visitor(vm)
+        return vm
 
-    document = Visitor(document).visit()
+    return _adapter
+
+
+def _visit_verification_methods(document: dict, visitor: Callable[[dict], dict]):
+    """Visit all verification methods in a document.
+
+    This includes the main verificationMethod list as well as verification
+    methods embedded in relationships.
+    """
+    verification_methods = document.get("verificationMethod")
+    if verification_methods:
+        document["verificationMethod"] = [visitor(vm) for vm in verification_methods]
+
+    for relationship in (
+        "authentication",
+        "assertionMethod",
+        "keyAgreement",
+        "capabilityInvocation",
+        "capabilityDelegation",
+    ):
+        vms_and_refs = document.get(relationship)
+        if vms_and_refs:
+            document[relationship] = [
+                _operate_on_embedded(visitor)(vm) for vm in vms_and_refs
+            ]
+
+    return document
+
+
+def contextualize_document(did: str, document: dict) -> dict:
+    """Perform contextualization of the document with the given DID.
+
+    This includes setting the id and alsoKnownAs fields as well as setting the
+    controller for all verification methods (including verification methods
+    embedded in verification relationships), if not already set.
+    """
+    document["id"] = did
+
+    def _visitor(value: dict):
+        if "controller" not in value:
+            value["controller"] = did
+        return value
+
+    document = _visit_verification_methods(document, _visitor)
     return document
 
 
@@ -123,9 +164,8 @@ def resolve(did: str) -> Dict[str, Any]:
     """
 
     decoded = decode(did)
-    document = decoded_to_resolved(did, decoded)
+    document = contextualize_document(did, decoded)
     document.setdefault("alsoKnownAs", []).append(long_to_short(did))
-    document["id"] = did
     return document
 
 
@@ -136,9 +176,8 @@ def resolve_short(did: str):
     """
     decoded = decode(did)
     short_did = long_to_short(did)
-    document = decoded_to_resolved(short_did, decoded)
+    document = contextualize_document(short_did, decoded)
     document.setdefault("alsoKnownAs", []).append(did)
-    document["id"] = short_did
     return document
 
 
