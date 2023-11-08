@@ -3,10 +3,9 @@
 
 [metadata]
 groups = ["default", "dev"]
-cross_platform = true
-static_urls = false
-lock_version = "4.3"
-content_hash = "sha256:7c643a5b6447c95d53c76512366204499939a680a0dc286855adc438ecf68a4f"
+strategy = ["cross_platform"]
+lock_version = "4.4"
+content_hash = "sha256:3fcb8fdfe293a010ab2f8aff60ea88247a3b15a9a7c137dd2c8383fb24daa0cf"
 
 [[package]]
 name = "base58"
@@ -349,6 +348,19 @@ dependencies = [
 files = [
     {file = "pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
     {file = "pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
+]
+
+[[package]]
+name = "pytest-ruff"
+version = "0.2.1"
+requires_python = ">=3.7,<4.0"
+summary = "pytest plugin to check ruff requirements."
+dependencies = [
+    "ruff>=0.0.242",
+]
+files = [
+    {file = "pytest_ruff-0.2.1-py3-none-any.whl", hash = "sha256:f586bbd7978cb5782b673c8e55fa069d83430139931b918bd72232ba3f71eb67"},
+    {file = "pytest_ruff-0.2.1.tar.gz", hash = "sha256:078ad696bfa347b466991ed4f9cc5ec807f5a171d7f06091660d8f16ba03a5dc"},
 ]
 
 [[package]]

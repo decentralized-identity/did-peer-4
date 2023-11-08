@@ -1,6 +1,14 @@
 import json
 
-from did_peer_4 import decode, encode, long_to_short, resolve, resolve_short
+from did_peer_4 import (
+    decode,
+    encode,
+    encode_short,
+    long_to_short,
+    resolve,
+    resolve_short,
+    resolve_short_from_doc,
+)
 
 
 DOC = {
@@ -41,12 +49,15 @@ DOC = {
 
 
 def test_encode_decode():
+    encoded = encode(DOC, validate=False)
     encoded = encode(DOC)
     print()
     print(encoded)
     print(long_to_short(encoded))
     decoded = decode(encoded)
     assert decoded == DOC
+    assert encode_short(DOC) == long_to_short(encoded)
+    assert resolve_short_from_doc(DOC, long_to_short(encoded)) == resolve_short(encoded)
 
 
 def test_resolve():
