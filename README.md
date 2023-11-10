@@ -24,11 +24,128 @@ did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNTh
 >>> from did_peer_4 import resolve
 >>> document = resolve(did)
 >>> print(document)
-{'hello': 'world', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M'], 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a'}
+{'hello': 'world', 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M']}
 >>> from did_peer_4 import resolve_short
 >>> short_document = resolve_short(did)
 >>> print(short_document)
-{'hello': 'world', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a'], 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M'}
+{'hello': 'world', 'id': 'did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M', 'alsoKnownAs': ['did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a']}
+
+```
+
+### With Input Document generation helper
+
+```python
+>>> import json
+>>> from did_peer_4 import encode, resolve
+>>> from did_peer_4.input_doc import input_doc_from_keys_and_services, KeySpec
+>>> key1 = KeySpec(
+...     multikey="z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+...     relationships=["authentication", "capabilityDelegation"],
+... )
+>>> key2 = KeySpec(
+...     multikey="z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc",
+...     relationships=["keyAgreement"],
+... )
+>>> service = {
+...     "id": "#didcomm-0",
+...     "type": "DIDCommMessaging",
+...     "serviceEndpoint": {
+...         "uri": "didcomm:transport/queue",
+...         "accept": ["didcomm/v2"]
+...     }
+... }
+>>> input_doc = input_doc_from_keys_and_services([key1, key2], [service])
+>>> print(json.dumps(input_doc, indent=2))
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/multikey/v1"
+  ],
+  "verificationMethod": [
+    {
+      "id": "#key-0",
+      "type": "Multikey",
+      "publicKeyMultibase": "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V"
+    },
+    {
+      "id": "#key-1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc"
+    }
+  ],
+  "authentication": [
+    "#key-0"
+  ],
+  "capabilityDelegation": [
+    "#key-0"
+  ],
+  "service": [
+    {
+      "id": "#didcomm-0",
+      "type": "DIDCommMessaging",
+      "serviceEndpoint": {
+        "uri": "didcomm:transport/queue",
+        "accept": [
+          "didcomm/v2"
+        ]
+      }
+    }
+  ],
+  "keyAgreement": [
+    "#key-1"
+  ]
+}
+>>> did = encode(input_doc)
+>>> print(did)
+did:peer:4zQmQabhRUiFPAmn7CX6B8V6qmfrs7nQQyFb6zAD7EAWvW3c:zMoDtDfb4quiz6yXy8ftBst291RGXBJaVy8FMivQWVLPbYUSAS68WgeWNxtdR5aBNraMHsPZi4iSWizFpbbZxQ2Cw56HwPxwG3SMa3wCtUkRj1LrAjcC1EE11t7vq1mggN2Y5xHTJpEbCLNnrUHG99RBb7fDEJff2YzCFqKxW4NU6tdjtw5fEy6Kz5f3KzeybV74aZY8QwWFMi3j9brksFsNhhCWyk65tKgaE2b5qyD6tLF5u3rNuEAUGNTTaJ1hPGKgCZaAAm4TdjuaSXoVaSxiXXkWjEsxRnLnqeNbw6djogDw41v2tpEawTQX7ZqL5ZbYzPi6N6L2e9Kkf4i2K2WMVLTW41n6AGmDguJPqrgkpCb71v2WiMGSsQPzk5EyPucdfQmxyn7tj4E21nZGNfY415Sp2XQZZ7yQPAimq3WrYf54srZfVjXvJBrMosCPDdm5bVKitRLjmh8ueQ3Pa8CcT3zHy8RtQRuKTQgKyWLUvMitN1eQEtaRo1vLNLYEX4cXhG51haarXRfEFyCr3FZeE9oBRWkZioCrkZTEL8rz4GAAnpPojxCPXsecE1WJXkcqZw1bS9YwU5gugNybPAFpoc2AhwtcQNvj9UhaZisVvPiEsynRG2cmwyjqi5dD8b6FvwCMUq8FzkpyV2UR8ePMMt3Co8FofVvKCkU4a4CRWF6hWCrEQqpSC5abNscuvpcMUfzvSVNrFVZyCiSMX2Wwa7tnxvujZTjutKXr
+>>> document = resolve_short(did)
+>>> print(json.dumps(document, indent=2))
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/multikey/v1"
+  ],
+  "verificationMethod": [
+    {
+      "id": "#key-0",
+      "type": "Multikey",
+      "publicKeyMultibase": "z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+      "controller": "did:peer:4zQmQabhRUiFPAmn7CX6B8V6qmfrs7nQQyFb6zAD7EAWvW3c"
+    },
+    {
+      "id": "#key-1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc",
+      "controller": "did:peer:4zQmQabhRUiFPAmn7CX6B8V6qmfrs7nQQyFb6zAD7EAWvW3c"
+    }
+  ],
+  "authentication": [
+    "#key-0"
+  ],
+  "capabilityDelegation": [
+    "#key-0"
+  ],
+  "service": [
+    {
+      "id": "#didcomm-0",
+      "type": "DIDCommMessaging",
+      "serviceEndpoint": {
+        "uri": "didcomm:transport/queue",
+        "accept": [
+          "didcomm/v2"
+        ]
+      }
+    }
+  ],
+  "keyAgreement": [
+    "#key-1"
+  ],
+  "id": "did:peer:4zQmQabhRUiFPAmn7CX6B8V6qmfrs7nQQyFb6zAD7EAWvW3c",
+  "alsoKnownAs": [
+    "did:peer:4zQmQabhRUiFPAmn7CX6B8V6qmfrs7nQQyFb6zAD7EAWvW3c:zMoDtDfb4quiz6yXy8ftBst291RGXBJaVy8FMivQWVLPbYUSAS68WgeWNxtdR5aBNraMHsPZi4iSWizFpbbZxQ2Cw56HwPxwG3SMa3wCtUkRj1LrAjcC1EE11t7vq1mggN2Y5xHTJpEbCLNnrUHG99RBb7fDEJff2YzCFqKxW4NU6tdjtw5fEy6Kz5f3KzeybV74aZY8QwWFMi3j9brksFsNhhCWyk65tKgaE2b5qyD6tLF5u3rNuEAUGNTTaJ1hPGKgCZaAAm4TdjuaSXoVaSxiXXkWjEsxRnLnqeNbw6djogDw41v2tpEawTQX7ZqL5ZbYzPi6N6L2e9Kkf4i2K2WMVLTW41n6AGmDguJPqrgkpCb71v2WiMGSsQPzk5EyPucdfQmxyn7tj4E21nZGNfY415Sp2XQZZ7yQPAimq3WrYf54srZfVjXvJBrMosCPDdm5bVKitRLjmh8ueQ3Pa8CcT3zHy8RtQRuKTQgKyWLUvMitN1eQEtaRo1vLNLYEX4cXhG51haarXRfEFyCr3FZeE9oBRWkZioCrkZTEL8rz4GAAnpPojxCPXsecE1WJXkcqZw1bS9YwU5gugNybPAFpoc2AhwtcQNvj9UhaZisVvPiEsynRG2cmwyjqi5dD8b6FvwCMUq8FzkpyV2UR8ePMMt3Co8FofVvKCkU4a4CRWF6hWCrEQqpSC5abNscuvpcMUfzvSVNrFVZyCiSMX2Wwa7tnxvujZTjutKXr"
+  ]
+}
+
 ```
 
 ## Tutorial

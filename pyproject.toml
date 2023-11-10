@@ -23,6 +23,7 @@ dev = [
     "ruff>=0.0.285",
     "pre-commit>=3.3.3",
     "pytest-cov>=4.1.0",
+    "pytest-ruff>=0.2.1",
 ]
 
 [tool.coverage.report]
@@ -33,3 +34,9 @@ exclude_lines = [
 precision = 2
 skip_covered = true
 show_missing = true
+
+[tool.pytest.ini_options]
+addopts = """
+    --cov=did_peer_4 --cov-report=term-missing --cov-branch --cov-fail-under=85 --cov-context=test
+    --doctest-glob README.md --ruff
+"""
