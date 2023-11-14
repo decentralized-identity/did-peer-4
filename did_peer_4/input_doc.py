@@ -24,7 +24,9 @@ class KeySpec:
     """Key specification."""
 
     multikey: str
-    relationships: Sequence[Relationship]
+    relationships: Optional[Sequence[Relationship]] = None
+    ident: Optional[str] = None
+    type: Optional[str] = None
 
 
 def input_doc_from_keys_and_services(
@@ -41,12 +43,12 @@ def input_doc_from_keys_and_services(
         ident = f"#key-{index}"
         input_doc.setdefault("verificationMethod", []).append(
             {
-                "id": ident,
-                "type": "Multikey",
+                "id": key.ident or ident,
+                "type": key.type or "Multikey",
                 "publicKeyMultibase": key.multikey,
             }
         )
-        for relationship in key.relationships:
+        for relationship in key.relationships or []:
             if relationship not in RELATIONSHIPS:
                 raise ValueError(f"Invalid relationship: {relationship}")
 
