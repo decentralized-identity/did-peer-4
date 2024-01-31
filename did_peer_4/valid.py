@@ -1,4 +1,5 @@
 """Validate input documents."""
+
 from typing import Any, Mapping
 
 

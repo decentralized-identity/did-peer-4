@@ -1,4 +1,5 @@
 """Tests for did:peer:4."""
+
 from pathlib import Path
 
 

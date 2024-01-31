@@ -1,4 +1,5 @@
 """Helpers for creating input documents for the DID method."""
+
 import warnings
 from dataclasses import dataclass, field
 from typing import Any, Dict, Literal, Optional, Protocol, Sequence
