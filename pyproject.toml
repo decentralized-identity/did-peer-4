@@ -19,8 +19,8 @@ build-backend = "pdm.backend"
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=7.4.0",
-    "black>=23.7.0",
-    "ruff>=0.0.285",
+    "black>=24.1.1",
+    "ruff>=0.1.2",
     "pre-commit>=3.3.3",
     "pytest-cov>=4.1.0",
     "pytest-ruff>=0.2.1",

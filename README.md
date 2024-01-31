@@ -37,12 +37,12 @@ did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNTh
 ```python
 >>> import json
 >>> from did_peer_4 import encode, resolve
->>> from did_peer_4.input_doc import input_doc_from_keys_and_services, KeySpec
->>> key1 = KeySpec(
+>>> from did_peer_4.input_doc import input_doc_from_keys_and_services, Multikey
+>>> key1 = Multikey(
 ...     multikey="z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
 ...     relationships=["authentication", "capabilityDelegation"],
 ... )
->>> key2 = KeySpec(
+>>> key2 = Multikey(
 ...     multikey="z6LSbysY2xFMRpGMhb7tFTLMpeuPRaqaWM1yECx2AtzE3KCc",
 ...     relationships=["keyAgreement"],
 ... )
