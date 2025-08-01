@@ -1,5 +1,8 @@
 name: Code Quality Check
 
+permissions:
+  contents: read
+
 "on":
   push:
     branches:
@@ -13,6 +16,11 @@ jobs:
     name: Format and Lint Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: psf/black@24.1.1
-      - uses: chartboost/ruff-action@v1
+      - uses: actions/checkout@v4
+      - uses: chartboost/ruff-action@v3
+        with:
+          version: "0.12.7"
+      - uses: chartboost/ruff-action@v3
+        with:
+          version: "0.12.7"
+          args: 'format --check'

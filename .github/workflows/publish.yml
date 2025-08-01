@@ -10,15 +10,16 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: pdm-project/setup-pdm@v3
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
         with:
-          python-version: 3.9
-          cache: true
+          version: "0.7.3"
+          enable-cache: true
       - name: Install dependencies
-        run: pdm install
-      - name: Run pytest
-        run: pdm run pytest
+        run: uv sync --locked --all-extras --dev
+      - name: Double check tests are passing
+        run: uv run pytest
+      - name: Build the package
+        run: uv build
       - name: Publish
-        run: pdm publish
+        run: uv publish
