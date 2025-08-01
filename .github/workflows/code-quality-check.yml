@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: chartboost/ruff-action@v3
+      - uses: astral-sh/ruff-action@v3
         with:
           version: "0.12.7"
-      - uses: chartboost/ruff-action@v3
+      - uses: astral-sh/ruff-action@v3
         with:
           version: "0.12.7"
           args: 'format --check'
