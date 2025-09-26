@@ -94,7 +94,7 @@ def decode(did: str) -> Dict[str, Any]:
 
 
 def _operate_on_embedded(
-    visitor: Callable[[dict], dict]
+    visitor: Callable[[dict], dict],
 ) -> Callable[[Union[dict, str]], Union[dict, str]]:
     """Return an adapter function that turns a vm visitor into a vm | ref visitor.
 
