@@ -1,0 +1,6 @@
+{
+  "description": "Minimal vector from DIF Python tests / pico-engine test/peerDid4.ts",
+  "inputDocument": { "hello": "world" },
+  "longForm": "did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M:zQSJgiFTYiCHjQ9MktwNThRXM7a",
+  "shortForm": "did:peer:4zQmb7xLdVY9TXx8oov5XgpGUmGELgqiAV2699s43i6Qdm3M"
+}

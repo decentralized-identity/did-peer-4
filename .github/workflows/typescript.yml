@@ -1,0 +1,30 @@
+# Copy to did-peer-4/.github/workflows/typescript.yml (see PR-SUBMIT.md)
+
+name: typescript
+
+on:
+  push:
+    paths:
+      - "typescript/**"
+      - "tests/examples/**"
+  pull_request:
+    paths:
+      - "typescript/**"
+      - "tests/examples/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: typescript/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
