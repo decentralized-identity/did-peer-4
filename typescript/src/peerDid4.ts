@@ -21,8 +21,11 @@ const SHORT_PATTERN = new RegExp(`^did:peer:4zQm[${BASE58_ALPHABET}]{44}$`);
 export type PeerDid4InputDocument = Record<string, unknown>;
 
 function encodeDoc(document: PeerDid4InputDocument): string {
-  const payload = MULTICODEC_JSON.toString("binary") + JSON.stringify(document);
-  return MULTIBASE_BASE58_BTC + bs58.encode(Buffer.from(payload, "binary"));
+  const payload = Buffer.concat([
+    MULTICODEC_JSON,
+    Buffer.from(JSON.stringify(document), "utf8"),
+  ]);
+  return MULTIBASE_BASE58_BTC + bs58.encode(payload);
 }
 
 function decodeDoc(encodedDoc: string): PeerDid4InputDocument {
